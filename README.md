@@ -19,7 +19,20 @@ nudge/
 
 ## 🚀 Quick Setup
 
-### 1. 🔒 Security Setup (REQUIRED FIRST STEP)
+### **Option 1: Complete Setup (Recommended)**
+```bash
+npm run setup
+```
+
+This will automatically:
+- Install all dependencies
+- Set up webapp environment
+- Guide you through Chrome extension setup
+- Provide database population instructions
+
+### **Option 2: Manual Setup**
+
+#### 1. 🔒 Security Setup (REQUIRED FIRST STEP)
 
 **For Web App:**
 ```bash
@@ -68,6 +81,35 @@ window.SUPABASE_ANON_KEY = 'your-anon-key-here';
 **Web App:** Deploy to Netlify, Vercel, or GitHub Pages
 **Supabase Functions:** Use Supabase CLI or dashboard
 
+## 🚀 Available Commands
+
+### **Quick Start**
+```bash
+npm start                    # Start webapp development server
+npm run setup               # Complete project setup
+npm run install-all         # Install all dependencies
+```
+
+### **Webapp Management**
+```bash
+npm run webapp:dev          # Start webapp in development mode
+npm run webapp:build        # Build webapp for production
+npm run webapp:start        # Start production webapp
+npm run webapp:setup        # Set up webapp environment
+```
+
+### **Chrome Extension**
+```bash
+npm run extension:setup     # Get extension setup instructions
+npm run extension:test      # Open extension test page
+```
+
+### **Database Management**
+```bash
+npm run db:populate         # Get database population instructions
+npm run db:setup            # Install database dependencies
+```
+
 ## 🔒 Security Features
 
 - ✅ **API Keys Protected**: All sensitive data in `.gitignore`
@@ -78,9 +120,11 @@ window.SUPABASE_ANON_KEY = 'your-anon-key-here';
 
 ## 📚 Documentation
 
+- **📖 Complete Setup Guide**: See `SETUP.md` for detailed instructions
 - **Web App**: See `webapp/README.md`
 - **Supabase Functions**: See `supabase/README-SECURITY.md`
-- **Chrome Extension**: See `creative-assistant-extension/`
+- **Chrome Extension**: See `creative-assistant-extension/README.md`
+- **Database Setup**: See `initialize/README.md`
 
 ## 🎯 Features
 

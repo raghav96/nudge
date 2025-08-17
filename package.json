@@ -1,0 +1,47 @@
+{
+  "name": "nudge-creative-assistant",
+  "version": "1.0.0",
+  "description": "Creative Assistant - AI-powered design inspiration and project management with Chrome extension and webapp",
+  "main": "webapp/src/app/page.tsx",
+  "scripts": {
+    "start": "npm run webapp:dev",
+    "webapp:dev": "cd webapp && npm run dev",
+    "webapp:build": "cd webapp && npm run build",
+    "webapp:start": "cd webapp && npm run start",
+    "webapp:setup": "cd webapp && chmod +x setup.sh && ./setup.sh",
+    "extension:setup": "echo 'Setting up Creative Assistant Chrome Extension...' && cd creative-assistant-extension && echo '1. Copy env.template to config.js' && echo '2. Update config.js with your Supabase credentials' && echo '3. Load extension in Chrome: chrome://extensions/ -> Developer mode -> Load unpacked'",
+    "extension:test": "cd creative-assistant-extension && open test.html",
+    "db:populate": "cd initialize && echo '1. Copy template files: cp *.template.js *.js' && echo '2. Update credentials in .js files' && echo '3. Run: npm run populate-projects && npm run populate-assets && npm run assign-projects'",
+    "db:setup": "cd initialize && npm install",
+    "install-all": "npm install && cd webapp && npm install && cd ../initialize && npm install",
+    "setup": "npm run install-all && npm run webapp:setup && npm run extension:setup",
+    "dev": "npm run webapp:dev",
+    "build": "npm run webapp:build",
+    "lint": "cd webapp && npm run lint"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "openai": "^4.20.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "creative-assistant",
+    "chrome-extension",
+    "ai-design",
+    "supabase",
+    "openai",
+    "embeddings",
+    "nextjs",
+    "react"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "your-repository-url"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
