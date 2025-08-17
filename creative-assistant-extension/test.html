@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Creative Assistant Extension Test</title>
+  <style>
+    body { 
+      width: 400px;
+      height: 600px;
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      background: white;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; }
+    .logo-icon { font-size: 18px; }
+    .logo-text { font-weight: 600; color: #1f2937; }
+    .close-btn { 
+      background: none; 
+      border: none; 
+      font-size: 18px; 
+      cursor: pointer; 
+      padding: 4px;
+      color: #6b7280;
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+      position: sticky;
+      top: 57px;
+      z-index: 9;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #6b7280;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .tab.active {
+      color: #1f2937;
+      border-bottom: 2px solid #3b82f6;
+    }
+    
+    /* Content */
+    .content { 
+      padding: 20px; 
+      padding-bottom: 40px;
+      height: calc(100vh - 114px);
+      overflow-y: auto;
+    }
+    
+    /* Form */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    .form-select, .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .form-select:focus, .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Panel Info */
+    .panel-info {
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    /* Brief Tab Styles */
+    .brief-section {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .brief-section h4 {
+      margin: 0 0 12px 0;
+      color: #1e293b;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .brief-content {
+      color: #475569;
+      line-height: 1.6;
+      font-size: 14px;
+      min-height: 20px;
+      padding: 8px 0;
+    }
+    
+    .brief-content.empty {
+      color: #94a3b8;
+      font-style: italic;
+    }
+    
+    .assets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .asset-item {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      aspect-ratio: 1;
+    }
+    
+    .asset-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .asset-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .asset-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 6px 8px;
+      font-size: 10px;
+      line-height: 1.2;
+      max-height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    
+    .no-assets {
+      text-align: center;
+      padding: 20px;
+      color: #94a3b8;
+      font-style: italic;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    .error { 
+      background: #fef2f2; 
+      border: 1px solid #fecaca; 
+      color: #dc2626; 
+      padding: 12px; 
+      border-radius: 8px; 
+      font-size: 14px;
+      margin-top: 16px;
+    }
+    
+    /* Explore Button */
+    .explore-btn {
+      width: 100%;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 20px 0;
+    }
+    
+    .explore-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .explore-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .icon {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <span class="logo-icon">🏠</span>
+      <span class="logo-text">Nudge</span>
+    </div>
+    <button class="close-btn" onclick="window.close()">✕</button>
+  </div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" data-tab="explore">Explore</button>
+    <button class="tab" data-tab="brief">Brief</button>
+  </div>
+  
+  <!-- Explore Tab Content -->
+  <div id="explore-tab" class="content">
+    <div class="panel-info">
+      AI-powered design inspiration panel
+    </div>
+    
+    <div class="form-group">
+      <label for="project-select">Project Brief (Optional)</label>
+      <select id="project-select" class="form-select">
+        <option value="">Select a project...</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="keywords-input">Keywords (Optional)</label>
+      <input type="text" id="keywords-input" class="form-input" placeholder="e.g., modern, minimalist, blue">
+    </div>
+    
+    <div class="panel-info" style="background: #f0f9ff; border: 1px solid #0ea5e9; color: #0369a1; margin-top: 15px;">
+      💡 <strong>AI-Generated Images:</strong><br>
+      Images created by AI are automatically uploaded to Supabase storage for permanent access. 
+      No more expiration issues - your inspiration is always available!
+    </div>
+    
+    <button id="explore-btn" class="explore-btn">
+      <span class="icon">💡</span>
+      <span id="explore-text">Inspire Me!</span>
+    </button>
+  </div>
+  
+  <!-- Brief Tab Content -->
+  <div id="brief-tab" class="content hidden">
+    <div class="panel-info">
+      View project briefs and associated assets
+    </div>
+    
+    <div class="form-group">
+      <label for="brief-project-select">Select Project</label>
+      <select id="brief-project-select" class="form-select">
+        <option value="">Choose a project...</option>
+      </select>
+    </div>
+    
+    <div id="project-brief-container" class="hidden">
+      <div class="brief-section">
+        <h4>Project Brief</h4>
+        <div id="project-brief" class="brief-content"></div>
+      </div>
+      
+      <div class="brief-section">
+        <h4>Keywords</h4>
+        <div id="project-keywords" class="brief-content"></div>
+      </div>
+      
+      <div class="brief-section">
+        <h4>Emotion</h4>
+        <div id="project-emotion" class="brief-content"></div>
+      </div>
+      
+      <div class="brief-section">
+        <h4>Look & Feel</h4>
+        <div id="project-look-feel" class="brief-content"></div>
+      </div>
+      
+      <div class="brief-section">
+        <h4>Project Assets</h4>
+        <div id="project-assets" class="assets-grid"></div>
+      </div>
+    </div>
+    
+    <div id="no-project-selected" class="panel-info">
+      Select a project above to view its brief and assets
+    </div>
+  </div>
+  
+  <script src="config.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
