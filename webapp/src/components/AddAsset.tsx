@@ -51,6 +51,7 @@ export default function AddAsset() {
     setResult(null)
 
     try {
+      // Call Supabase Edge Function for assets
       const formDataToSend = new FormData()
       formDataToSend.append('imageFile', imageFile)
       formDataToSend.append('keywords', formData.keywords || '')
@@ -58,8 +59,11 @@ export default function AddAsset() {
       formDataToSend.append('lookAndFeel', formData.lookAndFeel || '')
       formDataToSend.append('userEmail', formData.userEmail)
 
-      const response = await fetch('/api/assets', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/assets`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
+        },
         body: formDataToSend,
       })
 
@@ -148,7 +152,7 @@ export default function AddAsset() {
               placeholder="e.g., modern, minimalist, blue, tech"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
-            <p className="mt-1 text-xs text-gray-500">Comma-separated keywords (max 120 characters)</p>
+            <p className="mt-1 text-xs text-gray-600 font-medium">Comma-separated keywords (max 120 characters)</p>
           </div>
 
           <div>
@@ -164,7 +168,7 @@ export default function AddAsset() {
               placeholder="e.g., calm, professional, inspiring"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
-            <p className="mt-1 text-xs text-gray-500">Emotional qualities (max 120 characters)</p>
+            <p className="mt-1 text-xs text-gray-600 font-medium">Emotional qualities (max 120 characters)</p>
           </div>
 
           <div>
@@ -180,7 +184,7 @@ export default function AddAsset() {
               placeholder="e.g., clean, sophisticated, contemporary"
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
-            <p className="mt-1 text-xs text-gray-500">Visual style description (max 120 characters)</p>
+            <p className="mt-1 text-xs text-gray-600 font-medium">Visual style description (max 120 characters)</p>
           </div>
 
           <div>

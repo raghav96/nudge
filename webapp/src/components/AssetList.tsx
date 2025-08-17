@@ -14,7 +14,7 @@ export default function AssetList() {
 
   const fetchAssets = async () => {
     try {
-      const response = await fetch('/api/assets')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/assets`)
       const data = await response.json()
 
       if (!response.ok) {

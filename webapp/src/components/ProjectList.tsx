@@ -14,7 +14,7 @@ export default function ProjectList() {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('/api/projects')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/projects`)
       const data = await response.json()
 
       if (!response.ok) {

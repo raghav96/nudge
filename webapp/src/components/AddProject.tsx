@@ -20,10 +20,12 @@ export default function AddProject() {
     setResult(null)
 
     try {
-      const response = await fetch('/api/projects', {
+      // Call Supabase Edge Function for projects
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/projects`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`
         },
         body: JSON.stringify(formData),
       })
