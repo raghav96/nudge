@@ -618,14 +618,25 @@ async function generateMetadataVariations(originalMetadata: string, count: numbe
     const metadataParts = originalMetadata.split(',').map(part => part.trim())
     
     // Create a prompt for generating variations
-    const variationPrompt = `Given this design metadata: "${originalMetadata}"
+    const variationPrompt = `
+Given this design metadata: "${originalMetadata}"  
+Generate ${count} unique variations that preserve the same overall theme but use different wording.  
 
-Generate ${count} different variations that maintain the same theme but use different words. Each variation should have:
-- Keywords: Similar concepts but different specific words (e.g., if "birthday cake" → use "party hat", "balloon", "gift box")
-- Emotion: Related feelings but different expressions (e.g., if "joyful" → use "excited", "cheerful", "delighted")
-- Look and feel: Similar aesthetic but different descriptors (e.g., if "vibrant" → use "colorful", "energetic", "lively")
+Each variation must include:  
+•⁠ *Keywords*: Use related concepts (not too closely related) but swap in different specific terms  
+   (e.g., if "birthday cake" → use "party hat", "balloon", "gift box").  
+•⁠  *Emotion*: Express a related feeling, but vary the word choice  
+   (e.g., if "joyful" → use "excited", "cheerful", "delighted").  
+•⁠  *Look & Feel*: Keep a similar aesthetic, but describe it with alternative descriptors  
+   (e.g., if "vibrant" → use "colorful", "energetic", "lively").  
 
-Return ONLY the variations as a JSON array of strings, each containing the full metadata for one variation. Example format:
+### Output Rules
+Return ONLY the variations in a *valid JSON array of strings*.  
+•⁠  Each string should contain the *full metadata* in this format:  
+  "keywords: ..., emotion: ..., look and feel: ..."
+•⁠ Variations should be clearly distinct — not identical or too closely related.  
+
+### Example
 [
   "keywords: party hat, celebration, festive, emotion: excited, cheerful, look and feel: colorful, energetic, playful",
   "keywords: balloon, party, fun, emotion: delighted, happy, look and feel: vibrant, lively, cheerful"
